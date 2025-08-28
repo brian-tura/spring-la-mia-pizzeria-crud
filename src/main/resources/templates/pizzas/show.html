@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/resources :: head}"></div>
+    <title>Pizza</title>
+</head>
+
+<body>
+    <h1>Pizza</h1>
+
+    <h2 th:text="${pizza.nome}"></h2>
+    <p th:text="${pizza.descrizione}"></p>
+    <p th:text="${pizza.fotoUrl}"></p>
+    <p th:text="${pizza.prezzo} + ' €'"></p>
+</body>
+
+</html>
