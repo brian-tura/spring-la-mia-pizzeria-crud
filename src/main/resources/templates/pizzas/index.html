@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/resources :: head}"></div>
+    <title>Pizzeria</title>
+</head>
+
+<body>
+    <h1>
+        Pizzas
+    </h1>
+    <hr />
+    <div>
+        <table class="table" th:if="${pizzas.size() > 0}">
+            <thead>
+                <th>Nome</th>
+                <th>Descrizione</th>
+                <th>Foto Url</th>
+                <th>Prezzo</th>
+            </thead>
+            <tbody>
+                <tr th:each="pizza : ${pizzas}" th:object="${pizza}">
+                    <td>[[*{nome}]]</td>
+                    <td>[[*{descrizione}]]</td>
+                    <td>[[*{fotoUrl}]]</td>
+                    <td>[[*{prezzo}]] €</td>
+                </tr>
+            </tbody>
+        </table>
+        <p th:text="Non ci sono pizze" th:unless="${pizzas.size() > 0}"></p>
+    </div>
+    <div th:replace="~{fragments/resources :: scripts}"></div>
+</body>
+
+</html>
