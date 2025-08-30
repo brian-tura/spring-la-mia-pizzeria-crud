@@ -22,8 +22,10 @@ public class Pizza {
     @NotBlank(message = "Il nome non può essere ne null, ne vuoto")
     private String nome;
 
+    @NotBlank(message = "La descrizione non può essere ne null, ne vuota")
     private String descrizione;
 
+    @NotBlank(message = "L'Url dell'immagine non può essere ne null, ne vuoto")
     private String fotoUrl;
 
     @NotNull(message = "Il prezzo non può essere null")

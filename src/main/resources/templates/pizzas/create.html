@@ -17,13 +17,6 @@
                             <div class="col-8">
                                 <!-- Form -->
                                 <form id="pizza-form" th:action="@{/pizzas/create}" th:object="${pizza}" method="post">
-
-                                    <!-- <div class="mb-3 ps-2" th:if="${#fields.hasErrors()}">
-                                        <ul class="alert alert-danger">
-                                            <li th:each="error : ${#fields.allErrors()}" th:text="${error}" />
-                                        </ul>
-                                    </div> -->
-
                                     <div class="mb-3">
                                         <label class="form-label" for="nome">Nome: </label>
                                         <input class="form-control" type="text" id="nome" th:field="*{nome}" th:errorClass="is-invalid">
@@ -35,15 +28,25 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="descrizione">Descrizione: </label>
-                                        <textarea class="form-control" id="descrizione" th:field="*{descrizione}"></textarea>
+                                        <textarea class="form-control" id="descrizione" th:field="*{descrizione}" th:errorClass="is-invalid"></textarea>
+                                        <div class="invalid-feedback" th:if="${#fields.hasErrors('descrizione')}">
+                                            <ul>
+                                                <li th:each="error : ${#fields.errors('descrizione')}" th:text="${error}" />
+                                            </ul>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="immagine">Url dell'immagine: </label>
-                                        <input class="form-control" type="text" id="immagine" th:field="*{fotoUrl}">
+                                        <input class="form-control" type="text" id="immagine" th:field="*{fotoUrl}" th:errorClass="is-invalid">
+                                        <div class="invalid-feedback" th:if="${#fields.hasErrors('fotoUrl')}">
+                                            <ul>
+                                                <li th:each="error : ${#fields.errors('fotoUrl')}" th:text="${error}" />
+                                            </ul>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="prezzo">Prezzo: </label>
-                                        <input class="form-control" type="number" step="0.01" min="0.01" id="prezzo" th:field="*{prezzo}">
+                                        <input class="form-control" type="number" step="0.01" min="0.01" id="prezzo" th:field="*{prezzo}" th:errorClass="is-invalid">
                                         <div class="invalid-feedback" th:if="${#fields.hasErrors('prezzo')}">
                                             <ul>
                                                 <li th:each="error : ${#fields.errors('prezzo')}" th:text="${error}" />

@@ -33,7 +33,7 @@ public class PizzaController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("book", repository.findById(id).get());
+        model.addAttribute("pizza", repository.findById(id).get());
         Pizza pizza = repository.findById(id).get();
         model.addAttribute("pizza", pizza);
         return "/pizzas/show";
@@ -46,13 +46,37 @@ public class PizzaController {
     }
 
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, 
+    public String store(@Valid @ModelAttribute("pizza") Pizza formPizza,
             BindingResult bindingResult, Model model) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "pizzas/create";
-        } 
+        }
 
         repository.save(formPizza);
+        return "redirect:/pizzas";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
+        model.addAttribute("pizza", repository.findById(id).get());
+        return "pizzas/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String update(@Valid @ModelAttribute("pizza") Pizza formPizza,
+            BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "pizzas/edit";
+        }
+
+        repository.save(formPizza);
+        return "redirect:/pizzas";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id) {
+        repository.deleteById(id);
+        
         return "redirect:/pizzas";
     }
 }

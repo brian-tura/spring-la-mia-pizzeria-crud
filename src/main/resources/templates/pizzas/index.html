@@ -3,7 +3,7 @@
 
 <head>
     <div th:replace="~{fragments/resources :: head}"></div>
-    
+
 </head>
 
 <body>
@@ -26,6 +26,34 @@
                     <td>[[*{descrizione}]]</td>
                     <td>[[*{fotoUrl}]]</td>
                     <td>[[*{prezzo}]] €</td>
+                    <td><a th:href="@{/pizzas/{id}(id=${pizza.id})}" class="btn btn-primary">Mostra dettagli</a></td>
+                    <td><a th:href="@{/pizzas/edit/{id}(id=${pizza.id})}" class="btn btn-primary"> Modifica pizza</a>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                            th:data-bs-target="'#delete-modal-' + ${pizza.id}">Delete</button>
+
+                        
+                        <div class="modal fade" th:id="'delete-modal-' + ${pizza.id}" tabindex="-1" aria-labelledby="delete-modal" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="modalLabel">Deleting "[[${pizza.nome}]]"</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Sei sicuro di voler cancellare la pizza?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <form class="d-inline-block" th:action="@{/pizzas/delete/{id}(id=${pizza.id})}" method="post">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
