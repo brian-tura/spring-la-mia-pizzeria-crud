@@ -3,13 +3,14 @@
 
 <head>
     <div th:replace="~{fragments/resources :: head}"></div>
-    <title>Pizzeria</title>
+    
 </head>
 
 <body>
     <h1>
         Menu Pizzeria
     </h1>
+    <a th:href="@{/pizzas/create}" class="btn btn-primary">Crea una nuova pizza</a>
     <hr />
     <div>
         <table class="table" th:if="${pizzas.size() > 0}">
