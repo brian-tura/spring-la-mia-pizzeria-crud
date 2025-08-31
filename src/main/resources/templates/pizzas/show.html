@@ -3,16 +3,58 @@
 
 <head>
     <div th:replace="~{fragments/resources :: head}"></div>
-    
+
 </head>
 
 <body>
-    <h1>Pizza</h1>
+    <div class="container">
+        <h1>Pizza</h1>
 
-    <h2 th:text="${pizza.nome}"></h2>
-    <p th:text="${pizza.descrizione}"></p>
-    <p th:text="${pizza.fotoUrl}"></p>
-    <p th:text="${pizza.prezzo} + ' €'"></p>
+        <h2 th:text="${pizza.nome}"></h2>
+        <p th:text="${pizza.descrizione}"></p>
+        <p th:text="${pizza.fotoUrl}"></p>
+        <p th:text="${pizza.prezzo} + ' €'"></p>
+
+        <ul class="d-flex justify-content-around align-items-center list-unstyled" th:each="offerta : ${offerte}">
+            <li th:text="${offerta.titolo}"></li>
+            <li th:text="'Data di Inizio: ' + ${offerta.dataInizio}"></li>
+            <li th:text="'Data di Fine: ' + ${offerta.dataFine}"></li>
+            <li th:text="${percentualiSconto[offerta.id]} + '%'"></li>
+            <li><a th:href="@{/offerte/edit/{id}(id = ${offerta.id})}" class="btn btn-primary">Modifica Offerta</a></li>
+            <li>
+
+                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                    th:data-bs-target="'#delete-modal-' + ${offerta.id}">Delete</button>
+
+
+                <div class="modal fade" th:id="'delete-modal-' + ${offerta.id}" tabindex="-1"
+                    aria-labelledby="delete-modal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="modalLabel">Deleting "[[${offerta.titolo}]]"</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Sei sicuro di voler cancellare l'offerta?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <form class="d-inline-block" th:action="@{/offerte/delete/{id}(id=${offerta.id})}"
+                                    method="post">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </li>
+        </ul>
+        <a th:href="@{/pizzas/{id}/offerta(id=${pizza.id})}" class="btn btn-primary">Crea offerta</a>
+    </div>
+    <div th:replace="~{fragments/resources :: scripts}"></div>
 </body>
 
 </html>

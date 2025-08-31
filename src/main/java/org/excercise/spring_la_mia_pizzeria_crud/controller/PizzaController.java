@@ -1,5 +1,6 @@
 package org.excercise.spring_la_mia_pizzeria_crud.controller;
 
+import org.excercise.spring_la_mia_pizzeria_crud.model.Offerta;
 import org.excercise.spring_la_mia_pizzeria_crud.model.Pizza;
 import org.excercise.spring_la_mia_pizzeria_crud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 @Controller
@@ -33,9 +36,19 @@ public class PizzaController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("pizza", repository.findById(id).get());
         Pizza pizza = repository.findById(id).get();
+
+        List<Offerta> offerte = pizza.getOfferte();
+
+        Map<Integer, Integer> percentualiSconto = new HashMap<>();
+        for(Offerta offerta : offerte) {
+            int percentuale = offerta.getSconto().multiply(BigDecimal.valueOf(100)).setScale(0, RoundingMode.HALF_UP).intValue();
+            percentualiSconto.put(offerta.getId(), percentuale);
+        }
+
         model.addAttribute("pizza", pizza);
+        model.addAttribute("offerte", pizza.getOfferte());
+        model.addAttribute("percentualiSconto", percentualiSconto);
         return "/pizzas/show";
     }
 
@@ -76,7 +89,18 @@ public class PizzaController {
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
         repository.deleteById(id);
-        
+
         return "redirect:/pizzas";
     }
+
+    @GetMapping("/{id}/offerta")
+    public String offerta(@PathVariable Integer id, Model model) {
+        Offerta offerta = new Offerta();
+        offerta.setPizza(repository.findById(id).get());
+        model.addAttribute("offerta", offerta);
+        return "offerte/create";
+    }
+
+    
+
 }

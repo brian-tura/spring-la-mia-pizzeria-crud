@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/resources :: head}"></div>
+</head>
+<body>
+    <main class="container">
+        <div class="row">
+            <div class="col-12">
+                <th:block>
+                    <h1>
+                        Modifica Offerta [[${offerta.titolo}]]
+                    </h1>
+                    <div class="row justify-content-center">
+                        <div class="col-8">
+                            <!-- Form -->
+                            <form id="offerta-form" th:action="@{/offerte/edit/{id}(id=${offerta.id})}"
+                                th:object="${offerta}" method="post">
+                                <div class="mb-3">
+                                    <label class="form-label" for="titolo">Titolo: </label>
+                                    <input class="form-control" type="text" id="titolo" th:field="*{titolo}"
+                                        th:errorClass="is-invalid">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('titolo')}">
+                                        <ul>
+                                            <li th:each="error : ${#fields.errors('titolo')}" th:text="${error}" />
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="data-inizio">Data di Inizio: </label>
+                                    <textarea class="form-control" id="data-inizio" th:field="*{dataInizio}"
+                                        th:errorClass="is-invalid"></textarea>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('dataInizio')}">
+                                        <ul>
+                                            <li th:each="error : ${#fields.errors('dataInizio')}" th:text="${error}" />
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="data-fine">Data di scadenza: </label>
+                                    <input class="form-control" type="text" id="data-fine" th:field="*{dataFine}"
+                                        th:errorClass="is-invalid">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('dataFine')}">
+                                        <ul>
+                                            <li th:each="error : ${#fields.errors('dataFine')}" th:text="${error}" />
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="sconto">Sconto: </label>
+                                    <input class="form-control" type="number" step="0.01" min="0.01" id="sconto"
+                                        th:field="*{sconto}" th:errorClass="is-invalid">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('sconto')}">
+                                        <ul>
+                                            <li th:each="error : ${#fields.errors('sconto')}" th:text="${error}" />
+                                        </ul>
+                                    </div>
+                                </div>
+                                <input type="hidden" th:field="*{pizza.id}">
+                                <div class="mb-3 d-flex justify-content-between">
+                                    <input type="submit" class="btn btn-primary" value="Modifica offerta">
+                                    <input type="reset" class="btn btn-warning" value="Resetta i valori">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,11 +1,16 @@
 package org.excercise.spring_la_mia_pizzeria_crud.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -22,6 +27,7 @@ public class Pizza {
     @NotBlank(message = "Il nome non può essere ne null, ne vuoto")
     private String nome;
 
+    @Lob
     @NotBlank(message = "La descrizione non può essere ne null, ne vuota")
     private String descrizione;
 
@@ -31,6 +37,9 @@ public class Pizza {
     @NotNull(message = "Il prezzo non può essere null")
     @DecimalMin(value = "0.01", message = "Il prezzo deve essere maggiore di 0")
     private BigDecimal prezzo;
+
+    @OneToMany(mappedBy = "pizza", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Offerta> offerte = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -70,6 +79,14 @@ public class Pizza {
 
     public void setPrezzo(BigDecimal prezzo) {
         this.prezzo = prezzo;
+    }
+
+    public List<Offerta> getOfferte() {
+        return offerte;
+    }
+
+    public void setOfferte(List<Offerta> offerte) {
+        this.offerte = offerte;
     }
 
     @Override
