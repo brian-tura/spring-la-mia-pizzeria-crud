@@ -14,6 +14,12 @@
         <p th:text="${pizza.descrizione}"></p>
         <p th:text="${pizza.fotoUrl}"></p>
         <p th:text="${pizza.prezzo} + ' €'"></p>
+        <div>
+            <h3>ingredienti</h3>
+            <ul th:each="ingrediente : ${ingredienti}" object="${ingrediente}">
+                <li th:text="${ingrediente.nome}"></li>
+            </ul>
+        </div>
 
         <ul class="d-flex justify-content-around align-items-center list-unstyled" th:each="offerta : ${offerte}">
             <li th:text="${offerta.titolo}"></li>

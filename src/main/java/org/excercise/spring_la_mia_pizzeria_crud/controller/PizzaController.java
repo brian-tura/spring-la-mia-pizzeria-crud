@@ -1,7 +1,9 @@
 package org.excercise.spring_la_mia_pizzeria_crud.controller;
 
+import org.excercise.spring_la_mia_pizzeria_crud.model.Ingrediente;
 import org.excercise.spring_la_mia_pizzeria_crud.model.Offerta;
 import org.excercise.spring_la_mia_pizzeria_crud.model.Pizza;
+import org.excercise.spring_la_mia_pizzeria_crud.repository.IngredienteRepository;
 import org.excercise.spring_la_mia_pizzeria_crud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,9 @@ public class PizzaController {
     @Autowired
     private PizzaRepository repository;
 
+    @Autowired
+    private IngredienteRepository ingredienteRepository;
+
     @GetMapping
     public String index(Model model) {
         List<Pizza> pizzas = repository.findAll();
@@ -46,15 +51,20 @@ public class PizzaController {
             percentualiSconto.put(offerta.getId(), percentuale);
         }
 
+        List<Ingrediente> ingredienti = pizza.getIngredienti();
+
         model.addAttribute("pizza", pizza);
         model.addAttribute("offerte", pizza.getOfferte());
+        model.addAttribute("ingredienti", ingredienti);
         model.addAttribute("percentualiSconto", percentualiSconto);
         return "/pizzas/show";
     }
 
     @GetMapping("/create")
     public String create(Model model) {
+        List<Ingrediente> ingredienti = ingredienteRepository.findAll();
         model.addAttribute("pizza", new Pizza());
+        model.addAttribute("ingredienti", ingredienti);
         return "pizzas/create";
     }
 
@@ -71,7 +81,12 @@ public class PizzaController {
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
+        
+        List<Ingrediente> ingredienti = ingredienteRepository.findAll();
+        
+        model.addAttribute("ingredienti", ingredienti);
         model.addAttribute("pizza", repository.findById(id).get());
+
         return "pizzas/edit";
     }
 

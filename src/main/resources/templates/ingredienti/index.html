@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/resources :: head}"></div>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Lista degli ingredienti</h1>
+        <a th:href="@{/ingredienti/create}" class="btn btn-primary">Crea nuovo ingrediente</a>
+        <div class="row">
+            <ul class="d-flex list-unstyled mt-4" th:each="ingrediente : ${ingredienti}" th:object="${ingrediente}">
+                <li class="me-3" th:text="*{nome}"></li>
+                <li class="me-3"><a th:href="@{/ingredienti/edit/{id}(id=${ingrediente.id})}"
+                        class="btn btn-primary">Modifica ingrediente</a></li>
+                <li>
+
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                        th:data-bs-target="'#delete-modal-' + ${ingrediente.id}">Delete</button>
+
+
+                    <div class="modal fade" th:id="'delete-modal-' + ${ingrediente.id}" tabindex="-1"
+                        aria-labelledby="delete-modal" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="modalLabel">Deleting "[[${ingrediente.nome}]]"</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Sei sicuro di voler cancellare l'ingrediente?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <form class="d-inline-block" th:action="@{/ingredienti/delete/{id}(id=${ingrediente.id})}"
+                                        method="post">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div th:replace="~{fragments/resources :: scripts}"></div>
+</body>
+
+</html>

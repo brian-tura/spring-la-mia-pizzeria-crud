@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/resources :: head}"></div>
+</head>
+
+<body>
+    <div class="container">
+        <form id="ingrediente-form" th:action="@{/ingredienti/create}" th:object="${ingrediente}" method="post">
+            <label for="nome" class="form-label">Nome ingrediente: </label>
+            <input type="text" class="form-control" id="nome" th:field="*{nome}" th:errorClass="is-invalid">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}">
+                <ul>
+                    <li th:each="error : ${#fields.errors('nome')}" th:text="${error}" />
+                </ul>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Aggiungi un nuovo ingrediente">
+        </form>
+    </div>
+</body>
+
+</html>

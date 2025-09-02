@@ -53,6 +53,10 @@
                                             </ul>
                                         </div>
                                     </div>
+                                    <div th:each="ingrediente : ${ingredienti}">
+                                        <input  type="checkbox" th:field="*{ingredienti}" th:value="${ingrediente.id}">
+                                        <span th:text="${ingrediente.nome}"></span>
+                                    </div>
                                     <div class="mb-3 d-flex justify-content-between">
                                         <input type="submit" class="btn btn-primary" value="Crea una nuova pizza">
                                         <input type="reset" class="btn btn-warning" value="Resetta i valori">

@@ -16,8 +16,8 @@
                     <div class="row justify-content-center">
                         <div class="col-8">
                             <!-- Form -->
-                            <form id="pizza-form" th:action="@{/pizzas/edit/{id}(id=${pizza.id})}"
-                                th:object="${pizza}" method="post">
+                            <form id="pizza-form" th:action="@{/pizzas/edit/{id}(id=${pizza.id})}" th:object="${pizza}"
+                                method="post">
                                 <div class="mb-3">
                                     <label class="form-label" for="nome">Nome: </label>
                                     <input class="form-control" type="text" id="nome" th:field="*{nome}"
@@ -57,6 +57,10 @@
                                             <li th:each="error : ${#fields.errors('prezzo')}" th:text="${error}" />
                                         </ul>
                                     </div>
+                                </div>
+                                <div th:each="ingrediente : ${ingredienti}">
+                                    <input type="checkbox" th:field="*{ingredienti}" th:value="${ingrediente.id}">
+                                    <span th:text="${ingrediente.nome}"></span>
                                 </div>
                                 <div class="mb-3 d-flex justify-content-between">
                                     <input type="submit" class="btn btn-primary" value="Modifica pizza">

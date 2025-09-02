@@ -14,21 +14,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 
-
-
 @Controller
 @RequestMapping("/offerte")
 public class OffertaController {
-    
+
     @Autowired
     private OffertaRepository repository;
-    
+
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("offerta") Offerta formOfferta, BindingResult bindingResult, Model model){
+    public String store(@Valid @ModelAttribute("offerta") Offerta formOfferta, BindingResult bindingResult,
+            Model model) {
         if (bindingResult.hasErrors()) {
             return "offerte/create";
         }
-        
+
         repository.save(formOfferta);
         return "redirect:/pizzas/" + formOfferta.getPizza().getId();
     }
@@ -40,7 +39,8 @@ public class OffertaController {
     }
 
     @PostMapping("/edit/{id}")
-    public String update(@Valid @ModelAttribute("offerta")  Offerta formOfferta, BindingResult bindingResult, Model model) {
+    public String update(@Valid @ModelAttribute("offerta") Offerta formOfferta, BindingResult bindingResult,
+            Model model) {
         if (bindingResult.hasErrors()) {
             return "offerte/edit";
         }
@@ -48,6 +48,7 @@ public class OffertaController {
         repository.save(formOfferta);
         return "redirect:/pizzas/" + formOfferta.getPizza().getId();
     }
+
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
         Offerta offerta = repository.findById(id).get();
